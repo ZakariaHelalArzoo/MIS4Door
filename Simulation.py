@@ -1,9 +1,4 @@
-import random
-import math
-from collections import defaultdict
-
 from Coordinate import Coordinate
-from Robot import Robot
 from Door import Door
 import Grid
 class Simulate:
@@ -63,9 +58,8 @@ class Simulate:
 
 if __name__ == "__main__":
 
-    for i in range(10):
-        obj = Simulate(i,i)
-        obj.executeCycle()
-        print("Finished ", i)
+    obj = Simulate(8,8)
+    obj.executeCycle()
+    print("Finished ", i)
     while True:
         continue

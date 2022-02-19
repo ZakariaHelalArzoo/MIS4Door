@@ -13,4 +13,4 @@ class View:
                     yield x,y
 
     def categorize(self):
-        pass
+        return

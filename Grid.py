@@ -6,6 +6,9 @@ from Coordinate import Coordinate
 
 BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
+RED = (200, 0, 0)
+GREEN = (0, 200, 0)
+BLUE = (0, 0, 200)
 WINDOW_HEIGHT = 800
 WINDOW_WIDTH = 800
 ROBOT_RADIUS = 10
@@ -42,4 +45,11 @@ def renderRobots(robots):
         renderRobot(robot)
 
 def renderRobot(robot):
-    pygame.draw.circle(WINDOW, WHITE, (robot.coordinate.getX() * BLOCK_SIZE, robot.coordinate.getY() * BLOCK_SIZE), ROBOT_RADIUS)
+    color = WHITE
+    if robot.color == 0:
+        color = RED
+    elif robot.color == 1:
+        color = BLUE
+    elif robot.color == 2:
+        color = GREEN
+    pygame.draw.circle(WINDOW, color, (robot.coordinate.getX() * BLOCK_SIZE, robot.coordinate.getY() * BLOCK_SIZE), ROBOT_RADIUS)
