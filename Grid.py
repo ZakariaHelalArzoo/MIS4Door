@@ -1,5 +1,6 @@
 import pygame, pygame.freetype
 import sys
+import time
 from Robot import Robot
 from Coordinate import Coordinate
 
@@ -32,7 +33,7 @@ def render(robots, doors, numberOfRows, numberOfCols):
             
             sys.exit()
     
-    
+    time.sleep(3)
     pygame.display.update()
 
 

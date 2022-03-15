@@ -18,6 +18,8 @@ class Simulate:
         self.doors.append(self.Door3)
         self.doors.append(self.Door4)
         View.doors = self.doors
+        View.bottomBoundary = numOfRows
+        View.rightBoundary = numOfCols
 
 
     def executeCycle(self):        
@@ -48,16 +50,16 @@ class Simulate:
                 id = id + 1
                 self.robots.append(r4)
             
-            if r1 or r2 or r3 or r4:
+            if r1 or r2 or r3 or r4: #TODO: how do we determine end? This is not correct!!!
                 isFinished = False
 
             for robot in self.robots:
-                if (robot.color == 'F'):
+                if (robot.color == 'F' or robot == r1 or robot == r2 or robot == r3 or robot == r4):
                     continue
                 view = robot.look()
-                coordinate = robot.compute(view)
+                color, coordinate = robot.compute(view)
                 if coordinate:
-                    robot.move(coordinate)
+                    robot.move(coordinate, color)
                     isFinished = False
                 
             print("look compute done")

@@ -9,10 +9,10 @@ class Door:
         print(no, coordinate)
 
     def placeRobot(self, id):
-        if not View.isEmptyPosition(self.coordinate.getX(), self.coordinate.getY()):
+        if View.getPosCol(self.coordinate.getX(), self.coordinate.getY()) >= 0:
             return
         for i, j in View.traversal (3):
-            if not View.isEmptyPosition(self.coordinate.getX()+i, self.coordinate.getY()+j):
+            if View.getPosCol(self.coordinate.getX()+i, self.coordinate.getY()+j) >= 0:
                 return
         robot = Robot(id, Coordinate(self.coordinate.getX(), self.coordinate.getY()), self.currColor, self.no)
         View.robots.append(robot)

@@ -23,24 +23,35 @@ class Robot:
 
     def look(self):
         view = View()
+
+        x = self.coordinate.getX()
+        y = self.coordinate.getY()
+
         for i, j in View.traversal (3):
-            # get color of robot at position x+i, y+j
-            v = 0
-            
-            if v:
-                view.add(i,j, v) 
+            if view.isInBoundary(x+i, y+j):
+                view.checkAndAdd(x+i, y+j)
         
         return view
 
     def compute(self, view):
         x = self.coordinate.getX()
         y = self.coordinate.getY()
-        newcolor = self.color
+        color = self.color
+        door = self.door
 
-        v = view.categorize ()
+        v = view.categorize (x, y, door, self.direction)
+        print(self, v)
 
         # TODO: calculate coordinate according to view
         if v == 'D':
+            if door == 1:
+                x,y = view.rightBoundary-1, view.bottomBoundary-1
+            elif door == 2:
+                x,y = 0, view.bottomBoundary-1
+            elif door == 3:
+                x,y = view.rightBoundary-1, 0
+            elif door == 4:
+                x,y = 0, 0
             pass
         elif v == 'DC':
             pass
@@ -77,8 +88,8 @@ class Robot:
         elif v == 'Colf8':
             pass
         else:
-            return None
-        return Coordinate(x,y), newcolor
+            return None, None
+        return (color, Coordinate(x,y))
 
     def move(self, coordinate, color):
         self.coordinate.setX(coordinate.getX())
@@ -86,6 +97,6 @@ class Robot:
         self.color = color
 
     def inDoor(self):
-        if View.isDoor(self.coordinate.getX(), self.coordinate.getY(), self.door-1):
+        if View.isDoor(self.coordinate.getX(), self.coordinate.getY(), self.door):
             return self.door
         return -1
