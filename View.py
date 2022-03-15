@@ -1,4 +1,6 @@
 class View:
+    robots = []
+    doors = []
     def __init__(self):
         self.d = {}
 
@@ -13,4 +15,19 @@ class View:
                     yield x,y
 
     def categorize(self):
+
         return
+
+    @staticmethod
+    def isEmptyPosition(x,y):
+        for robot in View.robots:
+            if (robot.coordinate.isEqual(x,y)):
+                return False
+        return True
+
+    @staticmethod
+    def isDoor(x, y, doorNo):
+        print(doorNo)
+        if(View.doors[doorNo].coordinate.isEqual(x,y)):
+            return True
+        return False

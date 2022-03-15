@@ -37,6 +37,9 @@ class Coordinate:
     def isEqual(self, coordinate):
         return self.x == coordinate.getX() and self.y == coordinate.getY()
     
+    def isEqual(self, x, y):
+        return self.x == x and self.y == y
+    
     def __hash__(self) -> int:
         return hash((self.x, self.y))
 

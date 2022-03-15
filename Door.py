@@ -6,15 +6,16 @@ class Door:
         self.currColor = 0
         self.no = no
         self.coordinate = coordinate
+        print(no, coordinate)
 
     def placeRobot(self, id):
-        view = View()
-        if False: # TODO: check if door is empty
+        if not View.isEmptyPosition(self.coordinate.getX(), self.coordinate.getY()):
             return
         for i, j in View.traversal (3):
-            if False: #TODO: check if positions around door are empty
+            if not View.isEmptyPosition(self.coordinate.getX()+i, self.coordinate.getY()+j):
                 return
         robot = Robot(id, Coordinate(self.coordinate.getX(), self.coordinate.getY()), self.currColor, self.no)
+        View.robots.append(robot)
         self.currColor = (self.currColor + 1) % 3
         return robot
         

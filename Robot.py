@@ -84,3 +84,8 @@ class Robot:
         self.coordinate.setX(coordinate.getX())
         self.coordinate.setY(coordinate.getY())
         self.color = color
+
+    def inDoor(self):
+        if View.isDoor(self.coordinate.getX(), self.coordinate.getY(), self.door-1):
+            return self.door
+        return -1
