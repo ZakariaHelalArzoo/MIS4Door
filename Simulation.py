@@ -3,17 +3,22 @@ from Door import Door
 import Grid
 class Simulate:
 
-    def __init__(self, n, m):
+    def __init__(self, numOfRows, numOfCols):
         self.robots = []
-        self.n = n
-        self.m = m
-        self.Door1 = Door(Coordinate(m, n), 1) # bottom-right
-        self.Door2 = Door(Coordinate(0, n), 2) # bottom-left
-        self.Door3 = Door(Coordinate(m, 0), 3) # top-right
+        self.doors = []
+        self.numOfRows = numOfRows
+        self.numOfCols = numOfCols
+        self.Door1 = Door(Coordinate(numOfRows, numOfCols), 1) # bottom-right
+        self.Door2 = Door(Coordinate(0, numOfCols), 2) # bottom-left
+        self.Door3 = Door(Coordinate(numOfRows, 0), 3) # top-right
         self.Door4 = Door(Coordinate(0, 0), 4) # top-left
+        self.doors.append(self.Door1)
+        self.doors.append(self.Door2)
+        self.doors.append(self.Door3)
+        self.doors.append(self.Door4)
 
     def executeCycle(self):        
-        Grid.render(self.robots)
+        Grid.render(self.robots, self.doors, self.numOfRows, self.numOfCols)
 
         print (self.robots)
 
@@ -54,12 +59,14 @@ class Simulate:
                 
             print("look compute done")
             print (self.robots)
-            Grid.render(self.robots)
+            Grid.render(self.robots, self.doors, self.numOfRows, self.numOfCols)
 
 if __name__ == "__main__":
 
-    obj = Simulate(8,8)
+    numOfRows = 9
+    numOfCols = 9
+    obj = Simulate(numOfRows,numOfCols)
     obj.executeCycle()
-    print("Finished ", i)
+    
     while True:
         continue
