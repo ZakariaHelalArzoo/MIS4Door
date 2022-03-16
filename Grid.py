@@ -33,7 +33,7 @@ def render(robots, doors, numberOfRows, numberOfCols):
             
             sys.exit()
     
-    time.sleep(3)
+    time.sleep(1)
     pygame.display.update()
 
 

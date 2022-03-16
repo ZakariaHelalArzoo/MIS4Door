@@ -22,13 +22,14 @@ class Robot:
         return f"Robot: {self.id} {self.coordinate} color:{self.color} door:{self.door} direction:{self.direction}"
 
     def look(self):
-        view = View()
 
         x = self.coordinate.getX()
         y = self.coordinate.getY()
 
+        view = View(self)
+
         for i, j in View.traversal (3):
-            if view.isInBoundary(x+i, y+j):
+            if View.isInBoundary(x+i, y+j):
                 view.checkAndAdd(x+i, y+j)
         
         return view
@@ -39,7 +40,7 @@ class Robot:
         color = self.color
         door = self.door
 
-        v = view.categorize (x, y, door, self.direction)
+        v = view.categorize ()
         print(self, v)
 
         # TODO: calculate coordinate according to view
@@ -54,39 +55,144 @@ class Robot:
                 x,y = 0, 0
             pass
         elif v == 'DC':
-            pass
+            if door == 1:
+                p1 = self.getCorToPort(x-1, y)
+                p2 = self.getCorToPort(x,y-1)
+
+                if p1>p2:
+                    x = x-1
+                    self.direction = Direction.LEFT
+                else:
+                    y = y-1
+                    self.direction = Direction.UP
+            elif door == 2:
+                p1 = self.getCorToPort(x+1,y)
+                p2 = self.getCorToPort(x,y-1)
+                if p1>p2:
+                    x = x+1
+                    self.direction = Direction.LEFT
+                else:
+                    y = y-1
+                    self.direction = Direction.UP
+            elif door == 3:
+                p1 = self.getCorToPort(x-1,y)
+                p2 = self.getCorToPort(x,y+1)
+                if p1>p2:
+                    x = x-1
+                    self.direction = Direction.LEFT
+                else:
+                    y = y+1
+                    self.direction = Direction.DOWN
+            elif door == 4:
+                p1 = self.getCorToPort(x+1,y)
+                p2 = self.getCorToPort(x,y+1)
+                if p1>p2:
+                    x = x+1
+                    self.direction = Direction.LEFT
+                else:
+                    y = y+1
+                    self.direction = Direction.DOWN
         elif v == 'M':
-            pass
+            x += self.direction[0]
+            y += self.direction[1]
         elif v == 'C':
+            # door 1, 2, 3, 4 change direction and move
             pass
+        elif v == 'F':
+            color = 3
         elif v == 'Col1':
+            # door 3 and door 4 change direction and move
             pass
         elif v == 'Col2':
-            pass
+            if door == 3 or door == 4:
+                x += self.direction[0]
+                y += self.direction[1]
         elif v == 'Col3':
+            # door 1 and door 2 change direction and move
             pass
         elif v == 'Col4':
+            if door == 3 or door == 4:
+                color = 3
             pass
         elif v == 'Col5':
+            # door 3 and door 4 change direction and move
             pass
         elif v == 'Col6':
-            pass
+            if door == 1 or door == 2:
+                color = 3
         elif v == 'Colf1':
-            pass
+            color = 3
         elif v == 'Colf2':
-            pass
+            if door == 2 or door == 4:
+                if self.direction == Direction.UP:
+                    x += Direction.DOWN[0]
+                    y += Direction.DOWN[1]
+                elif self.direction == Direction.DOWN:
+                    x += Direction.UP[0]
+                    y += Direction.UP[1]
+                elif self.direction == Direction.LEFT:
+                    x += Direction.RIGHT[0]
+                    y += Direction.RIGHT[1]
+                elif self.direction == Direction.RIGHT:
+                    x += Direction.LEFT[0]
+                    y += Direction.LEFT[1]
+            else:
+                x += self.direction[0]
+                y += self.direction[1]
+            color = 3
         elif v == 'Colf3':
-            pass
+            if door == 1 or door == 3:
+                if self.direction == Direction.UP:
+                    x += Direction.DOWN[0]
+                    y += Direction.DOWN[1]
+                elif self.direction == Direction.DOWN:
+                    x += Direction.UP[0]
+                    y += Direction.UP[1]
+                elif self.direction == Direction.LEFT:
+                    x += Direction.RIGHT[0]
+                    y += Direction.RIGHT[1]
+                elif self.direction == Direction.RIGHT:
+                    x += Direction.LEFT[0]
+                    y += Direction.LEFT[1]
+            else:
+                x += self.direction[0]
+                y += self.direction[1]
+            color = 3
         elif v == 'Colf4':
-            pass
+            color = 3
         elif v == 'Colf5':
-            pass
+            if door == 1 or door == 3:
+                x += self.direction[0]
+                y += self.direction[1]
+            color = 3
         elif v == 'Colf6':
-            pass
+            if door == 1 or door == 3:
+                x += self.direction[0]
+                y += self.direction[1]
+            color = 3
         elif v == 'Colf7':
-            pass
+            if door == 2 or door == 4:
+                x += self.direction[0]
+                y += self.direction[1]
+            color = 3
         elif v == 'Colf8':
-            pass
+            if door == 2 or door == 4:
+                if self.direction == Direction.UP:
+                    x += Direction.DOWN[0]
+                    y += Direction.DOWN[1]
+                elif self.direction == Direction.DOWN:
+                    x += Direction.UP[0]
+                    y += Direction.UP[1]
+                elif self.direction == Direction.LEFT:
+                    x += Direction.RIGHT[0]
+                    y += Direction.RIGHT[1]
+                elif self.direction == Direction.RIGHT:
+                    x += Direction.LEFT[0]
+                    y += Direction.LEFT[1]
+            else:
+                x += self.direction[0]
+                y += self.direction[1]
+            color = 3
         else:
             return None, None
         return (color, Coordinate(x,y))
@@ -99,4 +205,10 @@ class Robot:
     def inDoor(self):
         if View.isDoor(self.coordinate.getX(), self.coordinate.getY(), self.door):
             return self.door
+        return -1
+
+    @staticmethod
+    def getCorToPort(x,y):
+        if View.isInBoundary(x,y):
+            return (View.bottomBoundary-y-1)*View.rightBoundary + View.rightBoundary-x
         return -1
