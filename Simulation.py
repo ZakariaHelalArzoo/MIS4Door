@@ -50,8 +50,10 @@ class Simulate:
                 id = id + 1
                 self.robots.append(r4)
             
-            if r1 or r2 or r3 or r4: #TODO: how do we determine end? This is not correct!!!
+            if r1 or r2 or r3 or r4:
                 isFinished = False
+
+            nextState = {}
 
             for robot in self.robots:
                 if (robot.color == 'F' or robot == r1 or robot == r2 or robot == r3 or robot == r4):
@@ -59,8 +61,12 @@ class Simulate:
                 view = robot.look()
                 color, coordinate = robot.compute(view)
                 if coordinate:
-                    robot.move(coordinate, color)
-                    isFinished = False
+                    nextState[robot] = color, coordinate
+
+            for key, value in nextState.items():
+                color, coordinate = value
+                key.move(coordinate, color)
+                isFinished = False
                 
             print("look compute done")
             print (self.robots)
