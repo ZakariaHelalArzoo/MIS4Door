@@ -3,10 +3,10 @@ from View import View
 import enum
 VISIBILITY_RADIUS = 3
 class Direction(enum.Enum):
-    UP=[0,-1]
-    DOWN=[0,1]
-    LEFT=[-1,0]
-    RIGHT=[1,0]
+    N=[0,-1]
+    S=[0,1]
+    W=[-1,0]
+    E=[1,0]
 class Robot:
     def __init__(self, id, coordinate, color, door) -> None:
         self.id = id
@@ -14,9 +14,9 @@ class Robot:
         self.color = color
         self.door = door
         if door == 1 or door == 2:
-            self.direction = Direction.UP
+            self.direction = Direction.N
         else:
-            self.direction = Direction.DOWN
+            self.direction = Direction.S
 
     def __repr__ (self):
         return f"Robot: {self.id} {self.coordinate} color:{self.color} door:{self.door} direction:{self.direction}"
@@ -61,62 +61,88 @@ class Robot:
 
                 if p1>p2:
                     x = x-1
-                    self.direction = Direction.LEFT
+                    self.direction = Direction.W
                 else:
                     y = y-1
-                    self.direction = Direction.UP
+                    self.direction = Direction.N
             elif door == 2:
                 p1 = self.getCorToPort(x+1,y)
                 p2 = self.getCorToPort(x,y-1)
                 if p1>p2:
                     x = x+1
-                    self.direction = Direction.LEFT
+                    self.direction = Direction.W
                 else:
                     y = y-1
-                    self.direction = Direction.UP
+                    self.direction = Direction.N
             elif door == 3:
                 p1 = self.getCorToPort(x-1,y)
                 p2 = self.getCorToPort(x,y+1)
                 if p1>p2:
                     x = x-1
-                    self.direction = Direction.LEFT
+                    self.direction = Direction.W
                 else:
                     y = y+1
-                    self.direction = Direction.DOWN
+                    self.direction = Direction.S
             elif door == 4:
                 p1 = self.getCorToPort(x+1,y)
                 p2 = self.getCorToPort(x,y+1)
                 if p1>p2:
                     x = x+1
-                    self.direction = Direction.LEFT
+                    self.direction = Direction.W
                 else:
                     y = y+1
-                    self.direction = Direction.DOWN
+                    self.direction = Direction.S
         elif v == 'M':
             x += self.direction[0]
             y += self.direction[1]
         elif v == 'C':
-            # door 1, 2, 3, 4 change direction and move
-            pass
+            if door == 1:
+                self.direction = Direction.W
+            if door == 2:
+                self.direction = Direction.E
+            if door == 3:
+                self.direction = Direction.W
+            if door == 4:
+                self.direction = Direction.E
+            x += self.direction[0]
+            y += self.direction[1]
         elif v == 'F':
             color = 3
         elif v == 'Col1':
-            # door 3 and door 4 change direction and move
-            pass
+            if door == 3:
+                self.direction = Direction.W
+                x += self.direction[0]
+                y += self.direction[1]
+            if door == 4:
+                self.direction = Direction.E
+                x += self.direction[0]
+                y += self.direction[1]
         elif v == 'Col2':
             if door == 3 or door == 4:
                 x += self.direction[0]
                 y += self.direction[1]
         elif v == 'Col3':
-            # door 1 and door 2 change direction and move
-            pass
+            if door == 1:
+                self.direction = Direction.W
+                x += self.direction[0]
+                y += self.direction[1]
+            if door == 2:
+                self.direction = Direction.E
+                x += self.direction[0]
+                y += self.direction[1]
         elif v == 'Col4':
             if door == 3 or door == 4:
                 color = 3
             pass
         elif v == 'Col5':
-            # door 3 and door 4 change direction and move
-            pass
+            if door == 3:
+                self.direction = Direction.W
+                x += self.direction[0]
+                y += self.direction[1]
+            if door == 4:
+                self.direction = Direction.E
+                x += self.direction[0]
+                y += self.direction[1]
         elif v == 'Col6':
             if door == 1 or door == 2:
                 color = 3
@@ -124,36 +150,36 @@ class Robot:
             color = 3
         elif v == 'Colf2':
             if door == 2 or door == 4:
-                if self.direction == Direction.UP:
-                    x += Direction.DOWN[0]
-                    y += Direction.DOWN[1]
-                elif self.direction == Direction.DOWN:
-                    x += Direction.UP[0]
-                    y += Direction.UP[1]
-                elif self.direction == Direction.LEFT:
-                    x += Direction.RIGHT[0]
-                    y += Direction.RIGHT[1]
-                elif self.direction == Direction.RIGHT:
-                    x += Direction.LEFT[0]
-                    y += Direction.LEFT[1]
+                if self.direction == Direction.N:
+                    x += Direction.S[0]
+                    y += Direction.S[1]
+                elif self.direction == Direction.S:
+                    x += Direction.N[0]
+                    y += Direction.N[1]
+                elif self.direction == Direction.W:
+                    x += Direction.E[0]
+                    y += Direction.E[1]
+                elif self.direction == Direction.E:
+                    x += Direction.W[0]
+                    y += Direction.W[1]
             else:
                 x += self.direction[0]
                 y += self.direction[1]
             color = 3
         elif v == 'Colf3':
             if door == 1 or door == 3:
-                if self.direction == Direction.UP:
-                    x += Direction.DOWN[0]
-                    y += Direction.DOWN[1]
-                elif self.direction == Direction.DOWN:
-                    x += Direction.UP[0]
-                    y += Direction.UP[1]
-                elif self.direction == Direction.LEFT:
-                    x += Direction.RIGHT[0]
-                    y += Direction.RIGHT[1]
-                elif self.direction == Direction.RIGHT:
-                    x += Direction.LEFT[0]
-                    y += Direction.LEFT[1]
+                if self.direction == Direction.N:
+                    x += Direction.S[0]
+                    y += Direction.S[1]
+                elif self.direction == Direction.S:
+                    x += Direction.N[0]
+                    y += Direction.N[1]
+                elif self.direction == Direction.W:
+                    x += Direction.E[0]
+                    y += Direction.E[1]
+                elif self.direction == Direction.E:
+                    x += Direction.W[0]
+                    y += Direction.W[1]
             else:
                 x += self.direction[0]
                 y += self.direction[1]
@@ -177,18 +203,18 @@ class Robot:
             color = 3
         elif v == 'Colf8':
             if door == 2 or door == 4:
-                if self.direction == Direction.UP:
-                    x += Direction.DOWN[0]
-                    y += Direction.DOWN[1]
-                elif self.direction == Direction.DOWN:
-                    x += Direction.UP[0]
-                    y += Direction.UP[1]
-                elif self.direction == Direction.LEFT:
-                    x += Direction.RIGHT[0]
-                    y += Direction.RIGHT[1]
-                elif self.direction == Direction.RIGHT:
-                    x += Direction.LEFT[0]
-                    y += Direction.LEFT[1]
+                if self.direction == Direction.N:
+                    x += Direction.S[0]
+                    y += Direction.S[1]
+                elif self.direction == Direction.S:
+                    x += Direction.N[0]
+                    y += Direction.N[1]
+                elif self.direction == Direction.W:
+                    x += Direction.E[0]
+                    y += Direction.E[1]
+                elif self.direction == Direction.E:
+                    x += Direction.W[0]
+                    y += Direction.W[1]
             else:
                 x += self.direction[0]
                 y += self.direction[1]
