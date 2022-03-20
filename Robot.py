@@ -93,8 +93,8 @@ class Robot:
                     y = y+1
                     self.direction = Direction.S
         elif v == 'M':
-            x += self.direction[0]
-            y += self.direction[1]
+            x +=  self.direction.value[0]
+            y += self.direction.value[1]
         elif v == 'C':
             if door == 1:
                 self.direction = Direction.W
@@ -104,32 +104,32 @@ class Robot:
                 self.direction = Direction.W
             if door == 4:
                 self.direction = Direction.E
-            x += self.direction[0]
-            y += self.direction[1]
+            x += self.direction.value[0]
+            y += self.direction.value[1]
         elif v == 'F':
             color = 'F'
         elif v == 'Col1':
             if door == 3:
                 self.direction = Direction.W
-                x += self.direction[0]
-                y += self.direction[1]
+                x += self.direction.value[0]
+                y += self.direction.value[1]
             if door == 4:
                 self.direction = Direction.E
-                x += self.direction[0]
-                y += self.direction[1]
+                x += self.direction.value[0]
+                y += self.direction.value[1]
         elif v == 'Col2':
             if door == 3 or door == 4:
-                x += self.direction[0]
-                y += self.direction[1]
+                x += self.direction.value[0]
+                y += self.direction.value[1]
         elif v == 'Col3':
             if door == 1:
                 self.direction = Direction.W
-                x += self.direction[0]
-                y += self.direction[1]
+                x += self.direction.value[0]
+                y += self.direction.value[1]
             if door == 2:
                 self.direction = Direction.E
-                x += self.direction[0]
-                y += self.direction[1]
+                x += self.direction.value[0]
+                y += self.direction.value[1]
         elif v == 'Col4':
             if door == 3 or door == 4:
                 color = 'F'
@@ -137,12 +137,12 @@ class Robot:
         elif v == 'Col5':
             if door == 3:
                 self.direction = Direction.W
-                x += self.direction[0]
-                y += self.direction[1]
+                x += self.direction.value[0]
+                y += self.direction.value[1]
             if door == 4:
                 self.direction = Direction.E
-                x += self.direction[0]
-                y += self.direction[1]
+                x += self.direction.value[0]
+                y += self.direction.value[1]
         elif v == 'Col6':
             if door == 1 or door == 2:
                 color = 'F'
@@ -163,8 +163,8 @@ class Robot:
                     x += Direction.W[0]
                     y += Direction.W[1]
             else:
-                x += self.direction[0]
-                y += self.direction[1]
+                x += self.direction.value[0]
+                y += self.direction.value[1]
             color = 'F'
         elif v == 'Colf3':
             if door == 1 or door == 3:
@@ -181,25 +181,25 @@ class Robot:
                     x += Direction.W[0]
                     y += Direction.W[1]
             else:
-                x += self.direction[0]
-                y += self.direction[1]
+                x += self.direction.value[0]
+                y += self.direction.value[1]
             color = 'F'
         elif v == 'Colf4':
             color = 'F'
         elif v == 'Colf5':
             if door == 1 or door == 3:
-                x += self.direction[0]
-                y += self.direction[1]
+                x += self.direction.value[0]
+                y += self.direction.value[1]
             color = 'F'
         elif v == 'Colf6':
             if door == 1 or door == 3:
-                x += self.direction[0]
-                y += self.direction[1]
+                x += self.direction.value[0]
+                y += self.direction.value[1]
             color = 'F'
         elif v == 'Colf7':
             if door == 2 or door == 4:
-                x += self.direction[0]
-                y += self.direction[1]
+                x += self.direction.value[0]
+                y += self.direction.value[1]
             color = 'F'
         elif v == 'Colf8':
             if door == 2 or door == 4:
@@ -216,8 +216,8 @@ class Robot:
                     x += Direction.W[0]
                     y += Direction.W[1]
             else:
-                x += self.direction[0]
-                y += self.direction[1]
+                x += self.direction.value[0]
+                y += self.direction.value[1]
             color = 'F'
         else:
             return None, None

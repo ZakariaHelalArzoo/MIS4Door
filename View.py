@@ -33,13 +33,80 @@ class View:
         y = self.robot.coordinate.getY()
 
         door = self.robot.door
+        robotColor = self.robot.color
 
         x1,y1,neigh1 = self.setViewToDoorOne(x,y,door)
 
-        if View.isDoor(x, y, self.robot.door): # not complete
-            return 'D'
+        #View D
+        if View.isDoor(x, y, self.robot.door):
+            if not self.hasUnfinishedRobot(neigh1): # not complete
+                return 'D'
+            
+            return 'I' 
 
-        return
+        #View C
+        elif (x1, y1 - 1) in neigh1 and (x1 - 2, y1 - 1) in neigh1:
+            if neigh1.get((x1, y1-1)) == 2 and neigh1.get((x1 - 2, y1 - 1)):
+                return 'C'
+        
+        elif (x1 - 1, y1 - 1) in neigh1 and (x1 - 3, y1 - 1) in neigh1:
+            if neigh1.get((x1 - 1, y1-1)) == 2 and neigh1.get((x1 - 3, y1 - 1)):
+                return 'C'
+
+        #View F
+        elif (x1 -1 , y1 - 1) in neigh1 and (x1 , y1 - 2) in neigh1 and (x1 - 2 , y1) in neigh1 and (x1 - 2, y1 - 2) in neigh1:
+            if neigh1.get((x1 -1 , y1 - 1)) == 2 and neigh1.get((x1 , y1 - 2)) and neigh1.get((x1 - 2, y1)) and neigh1.get((x1 - 2, y1 - 2)):
+                return 'F'
+        
+        elif (x1 + 1 , y1 - 1) in neigh1 and (x1 - 1, y1 - 1) in neigh1 and (x1 - 2 , y1) in neigh1:
+            if neigh1.get((x1 + 1 , y1 - 1)) == 2 and neigh1.get((x1 - 1, y1 - 1)) == 2 and neigh1.get((x1 - 2 , y1)) == 2:
+                return 'F'
+
+        #View Col1
+        elif (x1, y1 - 2) in neigh1:
+            if neigh1.get((x1, y1 - 2)) == robotColor:
+                
+                return 'Col1'
+
+        elif (x1, y1 + 2) in neigh1:
+            if neigh1.get((x1, y1 + 2)) == robotColor:
+                return 'Col1'
+
+        #View Col2
+
+        #View Col3
+
+        #View Col4
+
+        #View Col5
+
+        #View Col6
+
+        #View Colf1
+
+        #View Colf2
+
+        #View Colf3
+
+        #View Colf4
+
+        #View Colf5
+
+        #View Colf6
+
+        #View Colf7
+
+        #View Colf8
+
+        return 'M'
+
+
+    def hasUnfinishedRobot(self, neigh):
+        for key, color in neigh.items():
+            if color != 2:
+                return True
+
+        return False
 
     @staticmethod
     def getPosCol(x,y):
