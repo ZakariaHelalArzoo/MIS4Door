@@ -13,6 +13,14 @@ class Door:
             return
         for i, j in View.traversal (3):
             if View.getPosCol(self.coordinate.getX()+i, self.coordinate.getY()+j) >= 0:
+                if self.no == 1 and i == -1 and j == -1:
+                    continue
+                if self.no == 2 and i == 1 and j == -1:
+                    continue
+                if self.no == 3 and i == -1 and j == 1:
+                    continue
+                if self.no == 4 and i == 1 and j == 1:
+                    continue
                 return
         robot = Robot(id, Coordinate(self.coordinate.getX(), self.coordinate.getY()), self.currColor, self.no)
         View.robots.append(robot)
