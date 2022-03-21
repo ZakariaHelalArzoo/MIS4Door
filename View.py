@@ -9,23 +9,28 @@ class View:
         self.neigh = {}
         self.robot = robot
 
-    def checkAndAdd (self, x, y):
+    def __repr__(self):
+        return f"View: {self.robots} {self.doors} neigh: {self.neigh} robot: {self.robot}"
+
+    def checkAndAdd(self, x, y):
         for robot in View.robots:
-            if robot.coordinate.isEqual(x,y):
-                self.neigh[x,y] = robot.color
+            if robot.coordinate.isEqual(x, y):
+                self.neigh[x, y] = robot.color
 
     @staticmethod
-    def isInBoundary (x, y):
-        if x >= 0 and x < View.rightBoundary and y >=0 and y < View.bottomBoundary:
+    def isInBoundary(x, y):
+        if 0 <= x < View.rightBoundary and 0 <= y < View.bottomBoundary:
             return True
         return False
-    
+
     @staticmethod
     def traversal(n):
-        for x in range (-n, n+1):
-            for y in range (-n, n+1):
-                if abs(x)+abs(y) <= n and x != 0 and y != 0:
-                    yield x,y
+        for x in range(-n, n + 1):
+            for y in range(-n, n + 1):
+                if x == 0 and y == 0:
+                    continue
+                if abs(x) + abs(y) <= n:
+                    yield x, y
 
     def categorize(self):
         # TODO: define a function to rotate robots perspective and normalize such that it appears robot is from door1.
@@ -37,111 +42,121 @@ class View:
         door = self.robot.door
         robotColor = self.robot.color
 
-        x1,y1,neigh1 = self.setViewToDoorOne(x,y,door)
-
-        #View D
+        x1, y1, neigh1 = self.setViewToDoorOne(x, y, door)
+        # View D
         if View.isDoor(x, y, self.robot.door):
-            if not self.hasUnfinishedRobot(neigh1): # not complete
+            if not self.hasUnfinishedRobot(neigh1):  # not complete
                 return 'D'
+            else:
+                return 'I'
 
-        #View C
-        elif (x1, y1 - 1) in neigh1 and (x1 - 2, y1 - 1) in neigh1:
-            if neigh1.get((x1, y1-1)) ==  View.finalColor and neigh1.get((x1 - 2, y1 - 1)) == View.finalColor:
-                return 'C'
-        
-        elif (x1 - 1, y1 - 1) in neigh1 and (x1 - 3, y1 - 1) in neigh1:
-            if neigh1.get((x1 - 1, y1-1)) == View.finalColor and neigh1.get((x1 - 3, y1 - 1)) == View.finalColor:
+        # View C
+        elif (x1, y1 - 1) in neigh1 or (x1 - 1, y1 - 1) in neigh1 and x1 == self.rightBoundary-1:
+            if neigh1.get((x1, y1 - 1)) == View.finalColor or neigh1.get((x1 - 1, y1 - 1)) == View.finalColor:
                 return 'C'
 
-        #View F
-        elif (x1 -1 , y1 - 1) in neigh1 and (x1 , y1 - 2) in neigh1 and (x1 - 2 , y1) in neigh1 and (x1 - 2, y1 - 2) in neigh1:
-            if neigh1.get((x1 -1 , y1 - 1)) == View.finalColor and neigh1.get((x1 , y1 - 2)) == View.finalColor and neigh1.get((x1 - 2, y1)) == View.finalColor and neigh1.get((x1 - 2, y1 - 2)) == View.finalColor:
-                return 'F'
-        
-        elif (x1 + 1 , y1 - 1) in neigh1 and (x1 - 1, y1 - 1) in neigh1 and (x1 - 2 , y1) in neigh1:
-            if neigh1.get((x1 + 1 , y1 - 1)) == View.finalColor and neigh1.get((x1 - 1, y1 - 1)) == View.finalColor and neigh1.get((x1 - 2 , y1)) == View.finalColor:
+        # View F
+        elif (x1 - 1, y1 - 1) in neigh1 and (x1, y1 - 2) in neigh1 and (x1 - 2, y1) in neigh1 and (
+                x1 - 2, y1 - 2) in neigh1 and x1 == self.rightBoundary-1 and x1 == self.rightBoundary - 1:
+            if neigh1.get((x1 - 1, y1 - 1)) == View.finalColor and neigh1.get(
+                    (x1, y1 - 2)) == View.finalColor and neigh1.get((x1 - 2, y1)) == View.finalColor and neigh1.get(
+                    (x1 - 2, y1 - 2)) == View.finalColor:
                 return 'F'
 
-        #View Col1
+        elif (x1 + 1, y1 - 1) in neigh1 and (x1 - 1, y1 - 1) in neigh1 and (x1 - 2, y1) in neigh1:
+            if neigh1.get((x1 + 1, y1 - 1)) == View.finalColor and neigh1.get(
+                    (x1 - 1, y1 - 1)) == View.finalColor and neigh1.get((x1 - 2, y1)) == View.finalColor:
+                return 'F'
+
+        # View Col1
+
         elif (x1, y1 - 2) in neigh1:
-            if neigh1.get((x1, y1 - 2)) == robotColor:                
+            if neigh1.get((x1, y1 - 2)) == robotColor:
                 return 'Col1'
 
-
-        #View Col2
+        # View Col2
         elif (x1, y1 - 3) in neigh1:
-            if neigh1.get((x1, y1 - 3)) == robotColor:                
+            if neigh1.get((x1, y1 - 3)) == robotColor:
                 return 'Col2'
 
-        #View Col3
-        elif (x1 - 2, y1 - 1) in neigh1 and  (x1, y1 - 3) in neigh1:
-            if neigh1.get((x1 - 2, y1 - 1)) == robotColor and neigh1.get((x1, y1 - 3)) != robotColor:                
+        # View Col3
+        elif (x1 - 2, y1 - 1) in neigh1 and (x1, y1 - 3) in neigh1:
+            if neigh1.get((x1 - 2, y1 - 1)) == robotColor and neigh1.get((x1, y1 - 3)) != robotColor:
                 return 'Col3'
 
-        #View Col4
-        elif (x1 - 2, y1 - 2) in neigh1 and  (x1, y1 - 2) in neigh1:
-            if neigh1.get((x1 - 2, y1 - 2)) == View.finalColor and neigh1.get((x1, y1 - 2)) == robotColor:                
+        # View Col4
+        elif (x1 - 2, y1 - 2) in neigh1 and (x1, y1 - 2) in neigh1:
+            if neigh1.get((x1 - 2, y1 - 2)) == View.finalColor and neigh1.get((x1, y1 - 2)) == robotColor:
                 return 'Col4'
 
-        #View Col5
-        elif (x1 - 2, y1 - 3) in neigh1 and  (x1, y1 - 2) in neigh1:
-            if neigh1.get((x1 - 2, y1 - 3)) == View.finalColor and neigh1.get((x1, y1 - 2)) == robotColor:                
+        # View Col5
+        elif (x1 - 2, y1 - 3) in neigh1 and (x1, y1 - 2) in neigh1:
+            if neigh1.get((x1 - 2, y1 - 3)) == View.finalColor and neigh1.get((x1, y1 - 2)) == robotColor:
                 return 'Col5'
 
-        #View Col6
-        elif (x1 - 2, y1 ) in neigh1 and  (x1, y1 - 3) in neigh1:
-            if neigh1.get((x1 - 2, y1)) == View.finalColor and neigh1.get((x1, y1 - 3)) != robotColor:                
-                return 'Col5'
+        # View Col6
+        elif (x1 - 2, y1) in neigh1 and (x1, y1 - 3) in neigh1:
+            if neigh1.get((x1 - 2, y1)) == View.finalColor and neigh1.get((x1, y1 - 3)) != robotColor:
+                return 'Col6'
 
-        #View Colf1
+        # View Colf1
         elif (x1 - 2, y1) in neigh1:
             if neigh1.get((x1 - 2, y1)) == robotColor:
                 return 'Colf1'
 
-        #View Colf2
-        elif (x1 , y1 - 1) in neigh1 and (x1 - 2, y1 - 1) in neigh1 and (x1 - 2 , y1) in neigh1:
-            if neigh1.get((x1  , y1 - 1)) == View.finalColor and neigh1.get((x1 - 2, y1 - 1)) == View.finalColor and neigh1.get((x1 - 2, y1)) == robotColor:
+        # View Colf2
+        elif (x1, y1 - 1) in neigh1 and (x1 - 2, y1 - 1) in neigh1 and (x1 - 2, y1) in neigh1:
+            if neigh1.get((x1, y1 - 1)) == View.finalColor and neigh1.get(
+                    (x1 - 2, y1 - 1)) == View.finalColor and neigh1.get((x1 - 2, y1)) == robotColor:
                 return 'Colf2'
 
-
-        #View Colf3
-        elif (x1 , y1 - 1) in neigh1 and (x1 - 2, y1 - 1) in neigh1 and (x1 - 2 , y1) in neigh1:
-            if neigh1.get((x1  , y1 - 1)) == View.finalColor and neigh1.get((x1 - 2, y1 - 1)) == View.finalColor and neigh1.get((x1 - 2, y1)) != robotColor:
+        # View Colf3
+        elif (x1, y1 - 1) in neigh1 and (x1 - 2, y1 - 1) in neigh1 and (x1 - 2, y1) in neigh1:
+            if neigh1.get((x1, y1 - 1)) == View.finalColor and neigh1.get(
+                    (x1 - 2, y1 - 1)) == View.finalColor and neigh1.get((x1 - 2, y1)) != robotColor:
                 return 'Colf3'
 
-        #View Colf4
-        elif (x1 - 1, y1 - 1) in neigh1 and (x1 + 1, y1 - 1) in neigh1 and (x1 - 2 , y1) in neigh1:
-            if neigh1.get((x1 - 1 , y1 - 1)) == View.finalColor and neigh1.get((x1 + 1, y1 - 1)) == View.finalColor :
+        # View Colf4
+        elif (x1 - 1, y1 - 1) in neigh1 and (x1 + 1, y1 - 1) in neigh1 and (x1 - 2, y1) in neigh1:
+            if neigh1.get((x1 - 1, y1 - 1)) == View.finalColor and neigh1.get((x1 + 1, y1 - 1)) == View.finalColor:
                 return 'Colf4'
 
-        elif (x1 - 1, y1 - 1) in neigh1 and (x1 - 3, y1 - 1) in neigh1 and (x1 - 2 , y1) in neigh1:
-            if neigh1.get((x1 - 1 , y1 - 1)) == View.finalColor and neigh1.get((x1 - 3, y1 - 1)) == View.finalColor :
-                return 'Colf4'        
+        elif (x1 - 1, y1 - 1) in neigh1 and (x1 - 3, y1 - 1) in neigh1 and (x1 - 2, y1) in neigh1:
+            if neigh1.get((x1 - 1, y1 - 1)) == View.finalColor and neigh1.get((x1 - 3, y1 - 1)) == View.finalColor:
+                return 'Colf4'
 
-        #View Colf5
+        # View Colf5
         elif (x1 - 3, y1) in neigh1:
             if neigh1.get((x1 - 3, y1)) == robotColor:
                 return 'Colf5'
 
-        #View Colf6
-        elif (x1 , y1 - 1) in neigh1 and (x1 - 2, y1 - 1) in neigh1 and (x1 - 4 , y1 - 1) in neigh1 and (x1 - 3, y1) in neigh1:
-            if neigh1.get((x1 , y1 - 1)) == View.finalColor and neigh1.get((x1 - 2, y1 - 1)) == View.finalColor and neigh1.get((x1 - 4, y1 - 1)) == View.finalColor and neigh1.get((x1 - 3, y1 )) == robotColor:  
+        # View Colf6
+        elif (x1, y1 - 1) in neigh1 and (x1 - 2, y1 - 1) in neigh1 and (x1 - 4, y1 - 1) in neigh1 and (
+                x1 - 3, y1) in neigh1:
+            if neigh1.get((x1, y1 - 1)) == View.finalColor and neigh1.get(
+                    (x1 - 2, y1 - 1)) == View.finalColor and neigh1.get(
+                    (x1 - 4, y1 - 1)) == View.finalColor and neigh1.get((x1 - 3, y1)) == robotColor:
                 return 'Colf6'
 
-        #View Colf7
-        elif (x1 + 1, y1 - 1) in neigh1 and (x1 - 1, y1 - 1) in neigh1 and (x1 - 3 , y1 - 1) in neigh1 and (x1 - 3, y1) in neigh1:
-            if neigh1.get((x1 + 1, y1 - 1)) == View.finalColor and neigh1.get((x1 - 1, y1 - 1)) == View.finalColor and neigh1.get((x1 - 3, y1 - 1)) == View.finalColor and neigh1.get((x1 - 3, y1 )) == robotColor:  
+        # View Colf7
+        elif (x1 + 1, y1 - 1) in neigh1 and (x1 - 1, y1 - 1) in neigh1 and (x1 - 3, y1 - 1) in neigh1 and (
+                x1 - 3, y1) in neigh1:
+            if neigh1.get((x1 + 1, y1 - 1)) == View.finalColor and neigh1.get(
+                    (x1 - 1, y1 - 1)) == View.finalColor and neigh1.get(
+                    (x1 - 3, y1 - 1)) == View.finalColor and neigh1.get((x1 - 3, y1)) == robotColor:
                 return 'Colf7'
 
-        #View Colf8
-        elif (x1 + 1, y1 - 1) in neigh1 and (x1 - 1, y1 - 1) in neigh1 and (x1 - 3 , y1 - 1) in neigh1 and (x1 - 3, y1) in neigh1:
-            if neigh1.get((x1 + 1, y1 - 1)) == View.finalColor and neigh1.get((x1 - 1, y1 - 1)) == View.finalColor and neigh1.get((x1 - 3, y1 - 1)) == View.finalColor and neigh1.get((x1 - 3, y1 )) != robotColor:  
+        # View Colf8
+        elif (x1 + 1, y1 - 1) in neigh1 and (x1 - 1, y1 - 1) in neigh1 and (x1 - 3, y1 - 1) in neigh1 and (
+                x1 - 3, y1) in neigh1:
+            if neigh1.get((x1 + 1, y1 - 1)) == View.finalColor and neigh1.get(
+                    (x1 - 1, y1 - 1)) == View.finalColor and neigh1.get(
+                    (x1 - 3, y1 - 1)) == View.finalColor and neigh1.get((x1 - 3, y1)) != robotColor:
                 return 'Colf8'
 
         return 'M'
-
-
-    def hasUnfinishedRobot(self, neigh):
+    @staticmethod
+    def hasUnfinishedRobot(neigh):
         for key, color in neigh.items():
             if color != View.finalColor:
                 return True
@@ -149,48 +164,45 @@ class View:
         return False
 
     @staticmethod
-    def getPosCol(x,y):
+    def getPosCol(x, y):
         for robot in View.robots:
-            if (robot.coordinate.isEqual(x,y)):
+            if robot.coordinate.isEqual(x, y):
                 return robot.color
         return -1
 
     @staticmethod
     def isDoor(x, y, doorNo):
-        print(doorNo)
-        if(View.doors[doorNo-1].coordinate.isEqual(x,y)):
+        #print(doorNo)
+        if View.doors[doorNo - 1].coordinate.isEqual(x, y):
             return True
         return False
 
     def setViewToDoorOne(self, x0, y0, door):
-        print("setview")
+        #print("setview")
         nDoorCor = {}
         if door == 1:
             for key, item in self.neigh.items():
-                x,y = key
+                x, y = key
                 color = item
                 nDoorCor[x, y] = color
-            return x0,y0,nDoorCor
-        if door == View.finalColor:
+            return x0, y0, nDoorCor
+        elif door == 2:
             for key, item in self.neigh.items():
-                x,y = key
+                x, y = key
                 color = item
-                nDoorCor[View.rightBoundary-x-1, y] = color
+                nDoorCor[View.rightBoundary - x - 1, y] = color
             self.neigh = nDoorCor
-            return View.rightBoundary-x0-1,y0,nDoorCor
-        if door == 3:
+            return View.rightBoundary - x0 - 1, y0, nDoorCor
+        elif door == 3:
             for key, item in self.neigh.items():
-                x,y = key
+                x, y = key
                 color = item
-                nDoorCor[x,View.bottomBoundary-y-1] = color
-            return x0,View.bottomBoundary-y0-1,nDoorCor
-        
+                nDoorCor[x, View.bottomBoundary - y - 1] = color
+            return x0, View.bottomBoundary - y0 - 1, nDoorCor
+
         else:
             for key, item in self.neigh.items():
-                x,y = key
+                x, y = key
                 color = item
-                nDoorCor[View.rightBoundary-x-1, View.bottomBoundary-y-1] = color
-            return View.rightBoundary-x0-1, View.bottomBoundary-y0-1,nDoorCor
-
-        
-
+                nDoorCor[View.rightBoundary - x - 1, View.bottomBoundary - y - 1] = color
+            return View.rightBoundary - x0 - 1, View.bottomBoundary - y0 - 1, nDoorCor

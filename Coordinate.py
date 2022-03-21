@@ -1,14 +1,16 @@
 import math
+
+
 class Coordinate:
 
     def __init__(self, x, y) -> None:
         self.x = x
         self.y = y
 
-    def __str__ (self):
+    def __str__(self):
         return f"Coordinate: {self.x}, {self.y}"
 
-    def __repr__ (self):
+    def __repr__(self):
         return f"Coordinate: {self.x}, {self.y}"
 
     def __eq__(self, __o: object) -> bool:
@@ -33,13 +35,13 @@ class Coordinate:
 
     def getDistance(self, coordinate):
         return math.abs(self.x - coordinate.x) + math.abs(self.y - coordinate.y)
-    
+
     def isEqual(self, coordinate):
         return self.x == coordinate.getX() and self.y == coordinate.getY()
-    
+
     def isEqual(self, x, y):
         return self.x == x and self.y == y
-    
+
     def __hash__(self) -> int:
         return hash((self.x, self.y))
 

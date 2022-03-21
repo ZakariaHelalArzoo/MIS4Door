@@ -1,12 +1,17 @@
 from Coordinate import Coordinate
 from View import View
 import enum
+
 VISIBILITY_RADIUS = 3
+
+
 class Direction(enum.Enum):
-    N=[0,-1]
-    S=[0,1]
-    W=[-1,0]
-    E=[1,0]
+    N = [0, -1]
+    S = [0, 1]
+    W = [-1, 0]
+    E = [1, 0]
+
+
 class Robot:
     def __init__(self, id, coordinate, color, door) -> None:
         self.id = id
@@ -18,7 +23,7 @@ class Robot:
         else:
             self.direction = Direction.S
 
-    def __repr__ (self):
+    def __repr__(self):
         return f"Robot: {self.id} {self.coordinate} color:{self.color} door:{self.door} direction:{self.direction}"
 
     def look(self):
@@ -27,11 +32,11 @@ class Robot:
         y = self.coordinate.getY()
 
         view = View(self)
+        for i, j in View.traversal(3):
+            if View.isInBoundary(x + i, y + j):
+                view.checkAndAdd(x + i, y + j)
 
-        for i, j in View.traversal (3):
-            if View.isInBoundary(x+i, y+j):
-                view.checkAndAdd(x+i, y+j)
-        
+        #print("VIew:", view)
         return view
 
     def compute(self, view):
@@ -40,60 +45,60 @@ class Robot:
         color = self.color
         door = self.door
 
-        v = view.categorize ()
+        v = view.categorize()
         print(self, v)
 
         # TODO: calculate coordinate according to view
         if v == 'D':
             if door == 1:
-                x,y = view.rightBoundary-1, view.bottomBoundary-1
+                x, y = view.rightBoundary - 1, view.bottomBoundary - 1
             elif door == 2:
-                x,y = 0, view.bottomBoundary-1
+                x, y = 0, view.bottomBoundary - 1
             elif door == 3:
-                x,y = view.rightBoundary-1, 0
+                x, y = view.rightBoundary - 1, 0
             elif door == 4:
-                x,y = 0, 0
+                x, y = 0, 0
             pass
         elif v == 'DC':
             if door == 1:
-                p1 = self.getCorToPort(x-1, y)
-                p2 = self.getCorToPort(x,y-1)
+                p1 = self.getCorToPort(x - 1, y)
+                p2 = self.getCorToPort(x, y - 1)
 
-                if p1>p2:
-                    x = x-1
+                if p1 > p2:
+                    x = x - 1
                     self.direction = Direction.W
                 else:
-                    y = y-1
+                    y = y - 1
                     self.direction = Direction.N
             elif door == 2:
-                p1 = self.getCorToPort(x+1,y)
-                p2 = self.getCorToPort(x,y-1)
-                if p1>p2:
-                    x = x+1
+                p1 = self.getCorToPort(x + 1, y)
+                p2 = self.getCorToPort(x, y - 1)
+                if p1 > p2:
+                    x = x + 1
                     self.direction = Direction.W
                 else:
-                    y = y-1
+                    y = y - 1
                     self.direction = Direction.N
             elif door == 3:
-                p1 = self.getCorToPort(x-1,y)
-                p2 = self.getCorToPort(x,y+1)
-                if p1>p2:
-                    x = x-1
+                p1 = self.getCorToPort(x - 1, y)
+                p2 = self.getCorToPort(x, y + 1)
+                if p1 > p2:
+                    x = x - 1
                     self.direction = Direction.W
                 else:
-                    y = y+1
+                    y = y + 1
                     self.direction = Direction.S
             elif door == 4:
-                p1 = self.getCorToPort(x+1,y)
-                p2 = self.getCorToPort(x,y+1)
-                if p1>p2:
-                    x = x+1
+                p1 = self.getCorToPort(x + 1, y)
+                p2 = self.getCorToPort(x, y + 1)
+                if p1 > p2:
+                    x = x + 1
                     self.direction = Direction.W
                 else:
-                    y = y+1
+                    y = y + 1
                     self.direction = Direction.S
         elif v == 'M':
-            x +=  self.direction.value[0]
+            x += self.direction.value[0]
             y += self.direction.value[1]
         elif v == 'C':
             if door == 1:
@@ -221,7 +226,7 @@ class Robot:
             color = 'F'
         else:
             return None, None
-        return (color, Coordinate(x,y))
+        return color, Coordinate(x, y)
 
     def move(self, coordinate, color):
         self.coordinate.setX(coordinate.getX())
@@ -234,7 +239,7 @@ class Robot:
         return -1
 
     @staticmethod
-    def getCorToPort(x,y):
-        if View.isInBoundary(x,y):
-            return (View.bottomBoundary-y-1)*View.rightBoundary + View.rightBoundary-x
+    def getCorToPort(x, y):
+        if View.isInBoundary(x, y):
+            return (View.bottomBoundary - y - 1) * View.rightBoundary + View.rightBoundary - x
         return -1
