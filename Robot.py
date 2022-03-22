@@ -116,7 +116,7 @@ class Robot:
             x += self.direction.value[0]
             y += self.direction.value[1]
         elif v == 'F':
-            color = 'F'
+            color = 3
         elif v == 'Col1':
             if door == 3:
                 self.direction = Direction.W
@@ -141,7 +141,7 @@ class Robot:
                 y += self.direction.value[1]
         elif v == 'Col4':
             if door == 3 or door == 4:
-                color = 'F'
+                color = 3
             pass
         elif v == 'Col5':
             if door == 3:
@@ -154,80 +154,81 @@ class Robot:
                 y += self.direction.value[1]
         elif v == 'Col6':
             if door == 1 or door == 2:
-                color = 'F'
+                color = 3
         elif v == 'Colf1':
-            color = 'F'
+            color = 3
         elif v == 'Colf2':
             if door == 2 or door == 4:
                 if self.direction == Direction.N:
-                    x += Direction.S[0]
-                    y += Direction.S[1]
+                    x += Direction.S.value[0]
+                    y += Direction.S.value[1]
                 elif self.direction == Direction.S:
-                    x += Direction.N[0]
-                    y += Direction.N[1]
+                    x += Direction.N.value[0]
+                    y += Direction.N.value[1]
                 elif self.direction == Direction.W:
-                    x += Direction.E[0]
-                    y += Direction.E[1]
+                    x += Direction.E.value[0]
+                    y += Direction.E.value[1]
                 elif self.direction == Direction.E:
-                    x += Direction.W[0]
-                    y += Direction.W[1]
+                    x += Direction.W.value[0]
+                    y += Direction.W.value[1]
             else:
                 x += self.direction.value[0]
                 y += self.direction.value[1]
-            color = 'F'
+            color = 3
         elif v == 'Colf3':
             if door == 1 or door == 3:
                 if self.direction == Direction.N:
-                    x += Direction.S[0]
-                    y += Direction.S[1]
+                    x += Direction.S.value[0]
+                    y += Direction.S.value[1]
                 elif self.direction == Direction.S:
-                    x += Direction.N[0]
-                    y += Direction.N[1]
+                    x += Direction.N.value[0]
+                    y += Direction.N.value[1]
                 elif self.direction == Direction.W:
-                    x += Direction.E[0]
-                    y += Direction.E[1]
+                    x += Direction.E.value[0]
+                    y += Direction.E.value[1]
                 elif self.direction == Direction.E:
-                    x += Direction.W[0]
-                    y += Direction.W[1]
+                    x += Direction.W.value[0]
+                    y += Direction.W.value[1]
             else:
+                self.direction = Direction.E
                 x += self.direction.value[0]
                 y += self.direction.value[1]
-            color = 'F'
+            color = 3
         elif v == 'Colf4':
-            color = 'F'
+            color = 3
         elif v == 'Colf5':
             if door == 1 or door == 3:
                 x += self.direction.value[0]
                 y += self.direction.value[1]
-            color = 'F'
+            color = 3
         elif v == 'Colf6':
             if door == 1 or door == 3:
                 x += self.direction.value[0]
                 y += self.direction.value[1]
-            color = 'F'
+            color = 3
         elif v == 'Colf7':
             if door == 2 or door == 4:
                 x += self.direction.value[0]
                 y += self.direction.value[1]
-            color = 'F'
+            color = 3
         elif v == 'Colf8':
             if door == 2 or door == 4:
                 if self.direction == Direction.N:
-                    x += Direction.S[0]
-                    y += Direction.S[1]
+                    x += Direction.S.value[0]
+                    y += Direction.S.value[1]
                 elif self.direction == Direction.S:
-                    x += Direction.N[0]
-                    y += Direction.N[1]
+                    x += Direction.N.value[0]
+                    y += Direction.N.value[1]
                 elif self.direction == Direction.W:
-                    x += Direction.E[0]
-                    y += Direction.E[1]
+                    x += Direction.E.value[0]
+                    y += Direction.E.value[1]
                 elif self.direction == Direction.E:
-                    x += Direction.W[0]
-                    y += Direction.W[1]
+                    x += Direction.W.value[0]
+                    y += Direction.W.value[1]
             else:
                 x += self.direction.value[0]
                 y += self.direction.value[1]
-            color = 'F'
+            color = View.finalColor
         else:
             return None, None
         return color, Coordinate(x, y)

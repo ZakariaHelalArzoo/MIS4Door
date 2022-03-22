@@ -58,7 +58,7 @@ class Simulate:
             nextState = {}
 
             for robot in self.robots:
-                if robot.color == 'F' or robot == r1 or robot == r2 or robot == r3 or robot == r4:
+                if robot.color == 3 or robot == r1 or robot == r2 or robot == r3 or robot == r4:
                     continue
                 view = robot.look()
                 color, coordinate = robot.compute(view)
@@ -76,7 +76,7 @@ class Simulate:
 
 
 if __name__ == "__main__":
-    numOfRows = 7
-    numOfCols = 7
+    numOfRows = 6
+    numOfCols = 6
     obj = Simulate(numOfRows, numOfCols)
     obj.executeCycle()

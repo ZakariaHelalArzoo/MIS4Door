@@ -29,7 +29,7 @@ def render(robots, doors, numberOfRows, numberOfCols):
         if event.type == pygame.QUIT:
             sys.exit()
 
-    time.sleep(3)
+    time.sleep(1)
     pygame.display.update()
 
 
