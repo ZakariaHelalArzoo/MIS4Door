@@ -32,7 +32,11 @@ class Robot:
         y = self.coordinate.getY()
 
         view = View(self)
-        for i, j in View.traversal(3):
+        n = 3
+
+        if View.isDoor(x, y, self.door):
+            n = 4
+        for i, j in View.traversal(n):
             if View.isInBoundary(x + i, y + j):
                 view.checkAndAdd(x + i, y + j)
 
