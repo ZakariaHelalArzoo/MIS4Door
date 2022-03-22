@@ -50,7 +50,7 @@ class Robot:
         door = self.door
 
         v = view.categorize()
-        print(self, v)
+        # print(self, v)
 
         # TODO: calculate coordinate according to view
         if v == 'D':
@@ -86,7 +86,7 @@ class Robot:
             elif door == 3:
                 p1 = self.getCorToPort(x - 1, y)
                 p2 = self.getCorToPort(x, y + 1)
-                if p1 > p2:
+                if p1 < p2:
                     x = x - 1
                     self.direction = Direction.W
                 else:
@@ -95,7 +95,7 @@ class Robot:
             elif door == 4:
                 p1 = self.getCorToPort(x + 1, y)
                 p2 = self.getCorToPort(x, y + 1)
-                if p1 > p2:
+                if p1 < p2:
                     x = x + 1
                     self.direction = Direction.W
                 else:
