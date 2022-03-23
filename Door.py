@@ -8,7 +8,7 @@ class Door:
         self.currColor = 0
         self.no = no
         self.coordinate = coordinate
-        #print(no, coordinate)
+        # print(no, coordinate)
 
     def placeRobot(self, id):
         if View.getPosCol(self.coordinate.getX(), self.coordinate.getY()) >= 0:

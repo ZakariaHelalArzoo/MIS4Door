@@ -71,7 +71,7 @@ class Simulate:
                 isFinished = False
 
             print("look compute done")
-            #print(self.robots)
+            # print(self.robots)
             Grid.render(self.robots, self.doors, self.numOfRows, self.numOfCols)
 
 
