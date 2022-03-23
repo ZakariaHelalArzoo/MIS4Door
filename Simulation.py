@@ -76,7 +76,11 @@ class Simulate:
 
 
 if __name__ == "__main__":
-    numOfRows = 9
-    numOfCols = 9
-    obj = Simulate(numOfRows, numOfCols)
-    obj.executeCycle()
+    arr = {15}
+
+    for i in arr:
+        if True:
+            numOfRows = i
+            numOfCols = i
+            obj = Simulate(numOfRows, numOfCols)
+            obj.executeCycle()

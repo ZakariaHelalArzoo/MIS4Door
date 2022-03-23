@@ -288,6 +288,11 @@ class View:
                 x1 - 3, y1) in neigh1 and neigh1.get(
             (x1 - 1, y1 - 1)) == View.finalColor and neigh1.get((x1 - 3, y1)) == robotColor:
             return 'Colf7'
+        
+        elif (x1, y1 - 1) in neigh1 and (
+                x1 - 3, y1) in neigh1 and neigh1.get(
+            (x1 , y1 - 1)) == View.finalColor and neigh1.get((x1 - 3, y1)) == robotColor:
+            return 'Colf7'
 
         return False
 
