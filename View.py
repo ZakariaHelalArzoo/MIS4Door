@@ -185,7 +185,7 @@ class View:
         return False
 
     def viewCol3(self, x1, y1, neigh1, robotColor):
-        if (x1, y1 - 3) in neigh1 and neigh1.get((x1, y1 - 3)) != robotColor  and (x1, y1-1) not in neigh1 and (x1, y1-2) not in neigh1 and neigh1.get((x1, y1 - 3)) != View.finalColor:
+        if (x1, y1 - 3) in neigh1 and neigh1.get((x1, y1 - 3)) != robotColor and (self.robot.door == 3 or self.robot.door == 4 or ((x1 - 2, y1 - 1) in neigh1 and neigh1.get((x1 - 2, y1 - 1)) == robotColor)) and (x1, y1-1) not in neigh1 and (x1, y1-2) not in neigh1 and neigh1.get((x1, y1 - 3)) != View.finalColor:
             return 'Col3'
             
         return False
