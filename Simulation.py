@@ -76,7 +76,7 @@ class Simulate:
 
 
 if __name__ == "__main__":
-    numOfRows = 11
-    numOfCols = 11
+    numOfRows = 9
+    numOfCols = 9
     obj = Simulate(numOfRows, numOfCols)
     obj.executeCycle()

@@ -202,14 +202,14 @@ class Robot:
                 y += self.direction.value[1]
             color = 3
         elif v == 'Colf6':
-            # if door == 1 or door == 3:
-            x += self.direction.value[0]
-            y += self.direction.value[1]
+            if door == 1 or door == 3:
+                x += self.direction.value[0]
+                y += self.direction.value[1]
             color = 3
         elif v == 'Colf7':
-            # if door == 2 or door == 4:
-            #     x += self.direction.value[0]
-            #     y += self.direction.value[1]
+            if door == 2 or door == 4:
+                x += self.direction.value[0]
+                y += self.direction.value[1]
             color = 3
         elif v == 'Colf8':
             if door == 2 or door == 4:
