@@ -225,10 +225,10 @@ class Robot:
                 elif self.direction == Direction.E:
                     x += Direction.W.value[0]
                     y += Direction.W.value[1]
+                color = View.finalColor
             else:
                 x += self.direction.value[0]
                 y += self.direction.value[1]
-            color = View.finalColor
         else:
             return None, None
         return color, Coordinate(x, y)

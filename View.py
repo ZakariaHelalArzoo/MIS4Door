@@ -169,6 +169,9 @@ class View:
         elif (x1 + 1, y1 - 1) in neigh1 and (x1 - 1, y1 - 1) in neigh1 and (x1 - 2, y1) in neigh1 and neigh1.get((x1 + 1, y1 - 1)) == View.finalColor and neigh1.get(
                     (x1 - 1, y1 - 1)) == View.finalColor and neigh1.get((x1 - 2, y1)) == View.finalColor:
             return 'F'
+
+        elif (x1 - 2, y1) in neigh1 and neigh1.get((x1 - 2, y1)) == View.finalColor:
+            return 'F'
             
         return False
 
@@ -263,6 +266,12 @@ class View:
                 x1 - 3, y1) in neigh1 and neigh1.get((x1 + 1, y1 - 1)) == View.finalColor and neigh1.get(
                     (x1 - 1, y1 - 1)) == View.finalColor and neigh1.get((x1 - 3, y1)) != robotColor and neigh1.get((x1 - 3, y1)) != View.finalColor:
                 return 'Colf8'
+
+        elif (self.robot.door == 2 or self.robot.door == 4
+                ) and ((x1, y1 - 1) in neigh1 and neigh1.get((x1, y1 - 1)) == View.finalColor
+                ) and ((x1 - 2, y1 - 1) in neigh1 and neigh1.get((x1 - 2, y1 - 1)) == View.finalColor
+                ) and ((x1 - 3, y1) in neigh1 and neigh1.get((x1 - 3, y1)) != robotColor and neigh1.get((x1 - 3, y1)) != View.finalColor):
+            return 'Colf8'
         
         return False
 
